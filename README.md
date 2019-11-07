@@ -1,1 +1,1 @@
-# sa_naive_bayes
+# Application of Naive Bayes algorithm in Sentiment Analysis
