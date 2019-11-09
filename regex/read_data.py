@@ -24,7 +24,7 @@ def writeData(fileName, data):
 
 # MARK:- Operation
 # read input data
-input = readData("data.txt")
+input = readData("E:\\Computational Linguistics\\Sentiment Analysis\\sa_naive_bayes\\regex\\data.txt")
 
 # define sharp delimiter
 delimiter = "#[0-9]+"
@@ -41,7 +41,7 @@ values = ['positive', 'neutral', 'negative']
 # MARK:- Read input by lines
 
 i = 1
-while i in range(1, 3000):
+while i in range(1, 4):
     line = input.readline()
     x = re.search(delimiter, line)
     if x:
@@ -74,11 +74,12 @@ while i in range(1, 3000):
                                 if va.__len__() > 0:
                                     # save value
                                     res_v = va[0]
-            # create a json object for ONE tag
+
+            # create a json object for a tag
             json_part = {}
 
-            json_part["number"] = number
-            json_part["data"] = content
+            json_part["index"] = number
+            json_part["comment"] = content[1:]
             json_part["entity"] = res_e
             json_part["attribute"] = res_a
             json_part["value"] = res_v
