@@ -24,7 +24,8 @@ def writeData(fileName, data):
 
 # MARK:- Operation
 # read input data
-input = readData("E:\\Computational Linguistics\\Sentiment Analysis\\sa_naive_bayes\\regex\\data.txt")
+input = readData(
+    "E:\\Computational Linguistics\\Sentiment Analysis\\sa_naive_bayes\\regex\\data.txt")
 
 # define sharp delimiter
 delimiter = "#[0-9]+"
@@ -41,7 +42,7 @@ values = ['positive', 'neutral', 'negative']
 # MARK:- Read input by lines
 
 i = 1
-while i in range(1, 4):
+while i in range(1, 7):
     line = input.readline()
     x = re.search(delimiter, line)
     if x:
@@ -54,38 +55,33 @@ while i in range(1, 4):
         number = number[:-1]
 
         # remove first and last bracket
-        tag = tag[:-2]
-        tag = tag[1:]
+        tag = tag[1:-2]
         tags = re.split("}, {", tag)
 
-        for s in tags:
-            for e in entities:
-                en = re.findall(r'' + e + '', s)
-                if en.__len__() > 0:
-                    # save entity
-                    res_e = en[0]
-                    for a in atrributes:
-                        at = re.findall(r'' + a + '', s)
-                        if at.__len__() > 0:
-                            # save attribute
-                            res_a = at[0]
-                            for v in values:
-                                va = re.findall(r'' + v + '', s)
-                                if va.__len__() > 0:
-                                    # save value
-                                    res_v = va[0]
+        # create a json object for a tag
+        json_part = {}
 
-            # create a json object for a tag
-            json_part = {}
+        json_part["index"] = number
+        json_part["comment"] = content[1:]
 
-            json_part["index"] = number
-            json_part["comment"] = content[1:]
-            json_part["entity"] = res_e
-            json_part["attribute"] = res_a
-            json_part["value"] = res_v
+        # entity json array
+        entities = {}
 
-            # append to result
-            json_result.append(json_part)
+        for t in tags:
+            (key, value) = re.split(", ", t)
+            (entity, attribute) = re.split("#", key)
+
+            if entity not in entities:
+                entities[entity] = {attribute: value}
+            else:
+                ob = entities[entity]
+                ob[attribute] = value
+                entities[entity] = ob
+
+        json_part["tags:"] = entities
+
+        # append to result
+        json_result.append(json_part)
 
     line = input.readline()
     i += 1
