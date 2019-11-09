@@ -36,8 +36,9 @@ json_result = []
 # MARK:- Read input by lines
 
 i = 1
-while i in range(1, 7):
-    line = input.readline()
+line = input.readline()
+while line:
+
     x = re.search(delimiter, line)
     if x:
         number = x.string
