@@ -33,12 +33,6 @@ delimiter = "#[0-9]+"
 # init result
 json_result = []
 
-# MARK:- Define layers
-entities = ['RESTAURANT', 'FOOD', 'DRINKS',
-            'AMBIENCE', 'SERVICE', 'LOCATION']
-atrributes = ['GENERAL', 'PRICES', 'QUALITY', 'STYLE&OPTIONS', 'MISCELLANEOUS']
-values = ['positive', 'neutral', 'negative']
-
 # MARK:- Read input by lines
 
 i = 1
