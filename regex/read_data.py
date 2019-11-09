@@ -10,7 +10,7 @@ import pprint
 
 
 def readData(fileName):
-    outFile = io.open(fileName, 'r', encoding='utf-8')
+    outFile = io.open(fileName, 'r', encoding='utf-8-sig')
     return outFile
 
 # write to output file
