@@ -25,7 +25,7 @@ def writeData(fileName, data):
 # MARK:- Operation
 # read input data
 input = readData(
-    "E:\\Computational Linguistics\\Sentiment Analysis\\sa_naive_bayes\\regex\\data.txt")
+    "data.txt")
 
 # define sharp delimiter
 delimiter = "#[0-9]+"
