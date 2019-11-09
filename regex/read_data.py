@@ -7,15 +7,20 @@ import pprint
 
 # MARK:- Supoprt functions
 # read data file
+
+
 def readData(fileName):
     outFile = io.open(fileName, 'r', encoding='utf-8')
     return outFile
 
 # write to output file
+
+
 def writeData(fileName, data):
     file = io.open(fileName, "w", encoding='utf-8')
     file.write(data)
     file.close()
+
 
 # MARK:- Operation
 # read input data
@@ -71,10 +76,10 @@ while i in range(1, 3000):
                                     res_v = va[0]
             # create a json object for ONE tag
             json_part = {}
-            
+
             json_part["number"] = number
             json_part["data"] = content
-            json_part["entity"] = res_e 
+            json_part["entity"] = res_e
             json_part["attribute"] = res_a
             json_part["value"] = res_v
 
@@ -86,6 +91,7 @@ while i in range(1, 3000):
 
 # result now is a list
 # convert result to json
-parsed_json = json.dumps(json_result, indent=4, sort_keys=True, ensure_ascii=False)
+parsed_json = json.dumps(json_result, indent=4,
+                         sort_keys=True, ensure_ascii=False)
 # and output to file
 writeData("test.json", parsed_json)
