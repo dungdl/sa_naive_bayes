@@ -52,7 +52,7 @@ while line:
         # remove first and last bracket
         tag = tag[1:-2]
 
-        #split tags
+        # split tags
         tags = re.split(r'}, {', tag)
 
         # create a json object for a tag
