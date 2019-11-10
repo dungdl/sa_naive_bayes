@@ -7,8 +7,6 @@ import pprint
 
 # MARK:- Supoprt functions
 # read data file
-
-
 def readData(fileName):
     outFile = io.open(fileName, 'r', encoding='utf-8-sig')
     return outFile
