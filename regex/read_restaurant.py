@@ -57,7 +57,7 @@ while line:
         json_part = {}
 
         json_part["index"] = number
-        json_part["comment"] = content[1:]
+        json_part["comment"] = content
 
         # entity json array
         entities = {}
