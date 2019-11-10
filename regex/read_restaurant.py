@@ -73,7 +73,7 @@ while line:
                 ob[attribute] = value
                 entities[entity] = ob
 
-        json_part["tags:"] = entities
+        json_part["tags"] = entities
 
         # append to result
         json_result.append(json_part)
