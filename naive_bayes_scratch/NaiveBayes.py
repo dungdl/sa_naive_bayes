@@ -31,7 +31,7 @@ class NaiveBayes:
         self.classes = num_class
 
     # TO-DO: init bag of word for the category
-    def creatBagOfWord(self, example, dict_index):
+    def createBagOfWord(self, example, dict_index):
         if isinstance(example, np.ndarray):
             example = example[0]
         # count number of word appeared in the example
@@ -63,7 +63,7 @@ class NaiveBayes:
             cleaned_exams = pd.DataFrame(data=cleaned_exams)
 
             # store this bag of word of the particular category
-            np.apply_along_axis(self.creatBagOfWord, 1,
+            np.apply_along_axis(self.createBagOfWord, 1,
                                 cleaned_exams, cate_index)
 
         # TO-DO: calculate parameters for prior probability of class c - p(c)
@@ -92,7 +92,7 @@ class NaiveBayes:
         denominators = np.array([cate_word_counts[cate_index] + self.vocab_size +
                                  1 for cate_index, cate in enumerate(self.classes)])
 
-        # change all category info to tuple format
+        # change all category info to tuple format 
         self.cates_info = [(self.bag_dicts[cate_index], prob_classes[cate_index],
                             denominators[cate_index]) for cate_index, cate in enumerate(self.classes)]
         self.cates_info = np.array(self.cates_info)
