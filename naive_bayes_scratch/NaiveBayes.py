@@ -55,7 +55,7 @@ class NaiveBayes:
         # create BoW for each category
         for cate_index, cate in enumerate(self.classes):
             # get all examples of category equal cate
-            all_cate_examples = self.examples[self.classes == cate]
+            all_cate_examples = self.examples[self.labels == cate]
 
             # clean examples
             cleaned_exams = [preprocessing_string(
@@ -136,6 +136,6 @@ class NaiveBayes:
             # get posterior probability of every examples in test set
             post_prob = self.calExProb(cleaned_exams)
 
-            predictions.append(self.classes(np.argmax[post_prob]))
+            predictions.append(self.classes[np.argmax(post_prob)])
 
         return np.array(predictions)
