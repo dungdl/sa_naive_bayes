@@ -7,6 +7,18 @@ import re
 
 group_train = []
 
+def max(positive, negative, neutral):
+    if positive == negative:
+        return "neutral"
+    if positive > negative:
+        if neutral > positive:
+            return "neutral"
+        return "positive"
+    if negative > positive:
+        if neutral > negative:
+            return "neutral"
+        return "negative"
+
 # MARK:- Get content from json data file
 with open('test.json', encoding='utf8') as json_file:
     reviews = json.load(json_file)
@@ -30,3 +42,7 @@ with open('test.json', encoding='utf8') as json_file:
                     negative += 1
                 if val == "neutral":
                     neutral += 1
+
+        labels.append(max(positive, negative, neutral))  
+
+    
