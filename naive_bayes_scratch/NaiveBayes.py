@@ -11,13 +11,40 @@ import re
 
 def preprocessing_string(str):
 
-    # replace every characters except alphabet with a space
-    cleaned_str = re.sub('[^a-z\s]+', ' ', str, flags=re.IGNORECASE)
-    # merge multiple space into one
-    cleaned_str = re.sub('(\s+)', ' ', cleaned_str)
-    # lower case all characters
-    cleaned_str = cleaned_str.lower()
+    # # replace every characters except alphabet with a space
+    # cleaned_str = re.sub('[^a-z\s]+', ' ', str, flags=re.IGNORECASE)
+    # # merge multiple space into one
+    # cleaned_str = re.sub('(\s+)', ' ', cleaned_str)
+    # # lower case all characters
+    # cleaned_str = cleaned_str.lower()
 
+    emoji_pattern = re.compile(
+        u"(\ud83d[\ude00-\ude4f])|"  # emoticons
+        u"(\ud83c[\udf00-\uffff])|"  # symbols & pictographs (1 of 2)
+        u"(\ud83d[\u0000-\uddff])|"  # symbols & pictographs (2 of 2)
+        u"(\ud83d[\ude80-\udeff])|"  # transport & map symbols
+        u"(\ud83c[\udde0-\uddff])"  # flags (iOS)
+        "+", flags=re.UNICODE)
+
+    emoji_pattern.sub(r'', str)
+
+    # get all words from input string as space is the delimiter
+    words = re.split(' ', str)
+
+    # regex to detect special characters:
+    special_regex = re.compile('[-@_!#$%^&*()<>?/\|}{~:]')
+    max = len(words) - 1
+    for i in range(0, max):
+        if special_regex.search(words[i]):
+            if re.match(r'\w', words[i]):
+                words[i] = re.sub(
+                    '[-@_!#$%^&*()<>?/\|}{~:]', ' ', words[i], flags=re.IGNORECASE)
+            else:
+                words[i] = ''
+    # clean string:
+    cleaned_str = ' '.join(word for word in words)
+    cleaned_str = re.sub('(\s+)', ' ', cleaned_str)
+    cleaned_str = cleaned_str.lower()
     return cleaned_str
 
 # MARK:- NB class
@@ -92,7 +119,7 @@ class NaiveBayes:
         denominators = np.array([cate_word_counts[cate_index] + self.vocab_size +
                                  1 for cate_index, cate in enumerate(self.classes)])
 
-        # change all category info to tuple format 
+        # change all category info to tuple format
         self.cates_info = [(self.bag_dicts[cate_index], prob_classes[cate_index],
                             denominators[cate_index]) for cate_index, cate in enumerate(self.classes)]
         self.cates_info = np.array(self.cates_info)
@@ -139,3 +166,11 @@ class NaiveBayes:
             predictions.append(self.classes[np.argmax(post_prob)])
 
         return np.array(predictions)
+
+    def predict(self, test_ex):
+        cleaned_exam = preprocessing_string(test_ex)
+        print(cleaned_exam)
+        post_prob = self.calExProb(cleaned_exam)
+        prediction = self.classes[np.argmax(post_prob)]
+
+        return prediction

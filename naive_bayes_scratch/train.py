@@ -9,6 +9,7 @@ newsgroups_train = fetch_20newsgroups(subset='train', categories=categories)
 train_data = newsgroups_train.data  # getting all trainign examples
 train_labels = newsgroups_train.target
 
+print("[Training with fetch_20newsgroups]")
 nb = NaiveBayes(np.unique(train_labels))  # instantiate a NB class object
 print("---------------- Training In Progress --------------------")
 

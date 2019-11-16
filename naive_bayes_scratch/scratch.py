@@ -19,16 +19,31 @@ def readfile(filename):
 
 def preprocessing_string(str):
     # get all words from input string as space is the delimiter
+
+    emoji_pattern = re.compile(
+        u"(\ud83d[\ude00-\ude4f])|"  # emoticons
+        u"(\ud83c[\udf00-\uffff])|"  # symbols & pictographs (1 of 2)
+        u"(\ud83d[\u0000-\uddff])|"  # symbols & pictographs (2 of 2)
+        u"(\ud83d[\ude80-\udeff])|"  # transport & map symbols
+        u"(\ud83c[\udde0-\uddff])"  # flags (iOS)
+        "+", flags=re.UNICODE)
+
+    emoji_pattern.sub(r'', str)
+
     words = re.split(' ', str)
 
     # regex to detect special characters:
     special_regex = re.compile('[-@_!#$%^&*()<>?/\|}{~:]')
-    for word in words:
-        if special_regex.search(word):
-            if re.match(r'\w', word):
-                word = re.sub('[^a-z]', ' ', str, flags=re.IGNORECASE)
+    max = len(words) - 1
+    for i in range(0, max):
+        if special_regex.search(words[i]):
+            if re.match(r'\w', words[i]):
+                words[i] = re.sub(
+                    '[-@_!#$%^&*()<>?/\|}{~:]', ' ', words[i], flags=re.IGNORECASE)
             else:
-                words.remove(word)
+                words[i] = ''
+        if words[i] == ' ':
+            words[i] = ''
     # clean string:
     cleaned_str = ' '.join(word for word in words)
 
@@ -38,7 +53,7 @@ def preprocessing_string(str):
 # MARK:- start training data
 train_data = readfile('train.json')
 
-for i in range(1, 4):
+for i in range(1, 10):
     # print(train_data[i])
     print(preprocessing_string(train_data[i]))
     print("----------------")
