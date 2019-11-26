@@ -2,7 +2,8 @@
 import json
 
 # MARK:- Get content from json data file
-with open('test.json', encoding='utf8') as json_file:
+def read_json(resource):
+    with open(resource, encoding='utf8') as json_file:
     reviews = json.load(json_file)
     comments = []
     i = 0
@@ -11,5 +12,3 @@ with open('test.json', encoding='utf8') as json_file:
         i += 1
         if i == 3 : 
             break
-    
-        
