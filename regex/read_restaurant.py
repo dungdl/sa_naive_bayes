@@ -8,6 +8,7 @@ import pprint
 # MARK:- Supoprt functions
 # read data file
 
+
 class DataPreprocess:
 
     def readData(self, fileName):
@@ -16,14 +17,12 @@ class DataPreprocess:
 
     # write to output file
 
-
     def writeData(self, fileName, data):
         file = io.open(fileName, "w", encoding='utf-8')
         file.write(data)
         file.close()
 
     # get data from input file and write labelled data to output file
-
 
     def labeling(self, file_input, file_output):
         input = readData(file_input)
@@ -87,11 +86,6 @@ class DataPreprocess:
         # result is now a list
         # convert result to json
         parsed_json = json.dumps(json_result, indent=4,
-                                sort_keys=True, ensure_ascii=False)
+                                 sort_keys=True, ensure_ascii=False)
         # and output to file
         writeData(file_output, parsed_json)
-
-
-# MARK:- labeling
-# labeling('train.txt', 'train.json')
-# labeling('dev.txt', 'dev.json')
