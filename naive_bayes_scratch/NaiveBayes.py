@@ -32,15 +32,14 @@ def preprocessing_string(str):
     words = re.split(' ', str)
 
     # regex to detect special characters:
-    special_regex = re.compile('[-@_!#$%^&*()<>?/\|}{~:]')
     max = len(words) - 1
     for i in range(0, max):
-        if special_regex.search(words[i]):
-            if re.match(r'\w', words[i]):
-                words[i] = re.sub(
-                    '[-@_!#$%^&*()<>?/\|}{~:]', ' ', words[i], flags=re.IGNORECASE)
-            else:
-                words[i] = ''
+        words[i] = re.sub('r[^\w\s]+', '', words[i], flags=re.IGNORECASE)
+        if re.match(r'\w', words[i]):
+            words[i] = re.sub(
+                r'[-@_!#$%^&*()<>?/\|}{~:,.]', ' ', words[i], flags=re.IGNORECASE)
+        else:
+            words[i] = ''
     # clean string:
     cleaned_str = ' '.join(word for word in words)
     cleaned_str = re.sub('(\s+)', ' ', cleaned_str)
