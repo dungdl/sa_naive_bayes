@@ -27,7 +27,7 @@ def max(positive, negative, neutral):
 
 # MARK:- Get content from json data file
 def readfile(filename):
-    with open(filename, encoding='utf8') as json_file:
+    with open(filename, encoding='utf-8') as json_file:
         reviews = json.load(json_file)
         comments = []
         labels = []
@@ -76,6 +76,9 @@ def test(nb):
 # MARK:- start training data
 (train_data, train_labels) = readfile('train.json')
 
+print("Number of Train Examples: ", len(train_data))
+print("Number of Train Labels: ", len(train_labels))
+
 print("[Training with VLSP 2018]")
 nb = NaiveBayes(np.unique(train_labels))  # instantiate a NB class object
 print("---------------- Training In Progress --------------------")
@@ -84,5 +87,4 @@ print("---------------- Training In Progress --------------------")
 nb.train(train_data, train_labels)
 print('----------------- Training Completed ---------------------')
 
-for word in nb.bag_dicts:
-    print(word)
+test(nb)
