@@ -5,6 +5,11 @@ import time
 import re
 from NaiveBayes import NaiveBayes
 
+# Import module from sibling directory
+import sys
+sys.path.append("..")
+from regex.read_restaurant import DataPreprocess
+
 group_train = []
 
 # MARK:- support function
@@ -86,3 +91,4 @@ print('----------------- Training Completed ---------------------')
 
 for word in nb.bag_dicts:
     print(word)
+
