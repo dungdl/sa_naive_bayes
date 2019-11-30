@@ -53,7 +53,7 @@ class NaiveBayes:
     def createBagOfWord(self, example, dict_index):
         if isinstance(example, np.ndarray):
             example = example[0]
-        # count number of word appeared in the example
+        # count number of each word appeared in the example
         for token_word in example.split():
             self.bag_dicts[dict_index][token_word] += 1
 
