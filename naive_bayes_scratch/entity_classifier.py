@@ -72,7 +72,8 @@ def readfile(filename):
         frequency = collections.OrderedDict(frequency.most_common())
 
         # print (frequency)
-        pprint.pprint(frequency)
+        print (len(frequency))
+        # pprint.pprint(frequency)
 
 
 
