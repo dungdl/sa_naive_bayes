@@ -25,7 +25,7 @@ class DataPreprocess:
     # get data from input file and write labelled data to output file
 
     def labeling(self, file_input, file_output):
-        input = readData(file_input)
+        input = self.readData(file_input)
 
         # define sharp delimiter
         delimiter = "#[0-9]+"
@@ -88,4 +88,4 @@ class DataPreprocess:
         parsed_json = json.dumps(json_result, indent=4,
                                  sort_keys=True, ensure_ascii=False)
         # and output to file
-        writeData(file_output, parsed_json)
+        self.writeData(file_output, parsed_json)
