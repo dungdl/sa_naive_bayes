@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 from collections import defaultdict
+from pyvi import ViTokenizer
 import re
 
 # MARK:- Support methods
@@ -37,6 +38,7 @@ def preprocessing_string(str):
     cleaned_str = ' '.join(word for word in words)
     cleaned_str = re.sub('(\s+)', ' ', cleaned_str)
     cleaned_str = cleaned_str.lower()
+    cleaned_str = ViTokenizer.tokenize(cleaned_str)
     return cleaned_str
 
 # MARK:- NB class
@@ -161,7 +163,6 @@ class NaiveBayes:
 
     def predict(self, test_ex):
         cleaned_exam = preprocessing_string(test_ex)
-        print(cleaned_exam)
         post_prob = self.calExProb(cleaned_exam)
         prediction = self.classes[np.argmax(post_prob)]
 

@@ -13,7 +13,7 @@ print("[Training with fetch_20newsgroups]")
 nb = NaiveBayes(np.unique(train_labels))  # instantiate a NB class object
 print("---------------- Training In Progress --------------------")
 
-# start tarining by calling the train function
+# start training by calling the train function
 nb.train(train_data, train_labels)
 print('----------------- Training Completed ---------------------')
 

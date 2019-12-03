@@ -1,19 +1,17 @@
-# MARK:- Libsfrom NaiveBayes import NaiveBayes
+# MARK:- Libs
+import sys
+sys.path.append("//Users//apple//Desktop//Sentiment Analysis//sa_naive_bayes")
 import numpy as np
 import json
 import time
 import re
 from NaiveBayes import NaiveBayes
-
-# Import module from sibling directory
-import sys
-sys.path.append("..")
 from regex.read_restaurant import DataPreprocess
 
-group_train = []
+
 
 # MARK:- support function
-
+group_train = []
 # get label by comparing individual tags' labels
 
 
@@ -60,13 +58,7 @@ def readfile(filename):
 
 def test(nb):
     # start testing with test function
-    (test_data, test_labels) = readfile('dev.json')
-
-    # for i in range(1, 10):
-    #     # print(train_data[i])
-    #     print(nb.predict(train_data[i]))
-    #     print(train_labels[i])
-    #     print("----------------")
+    (test_data, test_labels) = readfile('train.json')
 
     print("Number of Test Examples: ", len(test_data))
     print("Number of Test Labels: ", len(test_labels))
@@ -91,8 +83,5 @@ print("---------------- Training In Progress --------------------")
 # start training by calling the train function
 nb.train(train_data, train_labels)
 print('----------------- Training Completed ---------------------')
-for word in nb.bag_dicts:
-    print(word)
 
-
-#test(nb)
+test(nb)
