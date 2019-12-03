@@ -330,4 +330,5 @@ ASALocalRun/
 .mfractor/
 *.txt
 *.json
+*.csv
 naive_bayes_scratch/read_json.py
