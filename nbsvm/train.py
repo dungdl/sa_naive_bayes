@@ -5,6 +5,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 import re
 import string
+import warnings
+warnings.filterwarnings("ignore")
 
 # MARK:- input
 train = pd.read_csv('train.csv')
@@ -41,6 +43,9 @@ vec = TfidfVectorizer(ngram_range=(1, 2), tokenizer=tokenize,
 COMMENT = 'comment_text'
 train[COMMENT].fillna("unknown", inplace=True)
 test[COMMENT].fillna("unknown", inplace=True)
+
+label_cols = ['toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']
+train['none'] = 1-train[label_cols].max(axis=1)
                     
 trn_term_doc = vec.fit_transform(train[COMMENT])
 test_term_doc = vec.transform(test[COMMENT])
