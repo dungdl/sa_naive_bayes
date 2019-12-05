@@ -3,6 +3,7 @@ import numpy as np
 import json
 import time
 import re
+import pprint
 
 group_train = []
 
@@ -11,7 +12,7 @@ group_train = []
 # label each review based on defined entity
 
 
-def labeling_entity(entity, index):
+def labeling_entity(tag, index):
     switcher = [
         "RESTAURANT",
         "FOOD",
@@ -20,7 +21,7 @@ def labeling_entity(entity, index):
         "SERVICE",
         "LOCATION"
     ]
-    return 1 if entity == switcher[index] else 0
+    return 1 if switcher[index] in tag.keys() else 0
 
 # MARK:- Get content from json data file
 
@@ -34,18 +35,21 @@ def readfile(filename):
         for rev in reviews:
             comments.append(rev['comment'])
             tags.append(rev['tags'])
- 
-        for tag in tags:
-            for key_entity in tag.keys():
-                for i in range (0, 5):
-                    labels[i].append(labeling_entity(key_entity, i))
+
+        # pprint.pprint(tags[:3])
+
+        for i in range(0, 5):
+            temp = []
+            for tag in tags:
+                temp.append(labeling_entity(tag, i))
+            labels.append(temp)
+
+    return (tags, labels)
 
 
-                
-    return (comments, labels)
+(tags, labels) = readfile('train.json')
 
 
-readfile('restaurant.json')
 """
 def test(nb):
     # start testing with test function
