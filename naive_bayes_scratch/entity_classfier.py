@@ -34,15 +34,14 @@ def readfile(filename):
         for rev in reviews:
             comments.append(rev['comment'])
             tags.append(rev['tags'])
+ 
+        for tag in tags:
+            for key_entity in tag.keys():
+                for i in range (0, 5):
+                    labels[i].append(labeling_entity(key_entity, i))
 
-        for i in range(0, len(tags)):
-            tag = tags[i]
-            for key_entity, value_entity in tag.items():
-                label = labeling_entity(key_entity, 1)
-                print(key_entity)
-                print(label)
-                print(";;;")
 
+                
     return (comments, labels)
 
 
