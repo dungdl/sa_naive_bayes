@@ -115,7 +115,7 @@ for i in range(10):
     nb.train(train_data, train_labels)
     dev(nb, dev_data, dev_labels)
 
-    min_range = indexer
+    min_range += indexer
     indexer += indexer
     
     if (min_range >= len(ori_labels)):
@@ -123,6 +123,4 @@ for i in range(10):
 
 
 print('----------------- Training Completed ---------------------')
-
-
 test(nb)
