@@ -3,7 +3,6 @@ import numpy as np
 import json
 import time
 import re
-from NaiveBayes import NaiveBayes
 
 group_train = []
 
@@ -12,16 +11,16 @@ group_train = []
 # label each review based on defined entity
 
 
-def labeling_entity(entity):
-    switcher = {
-        "RESTAURANT": 0,
-        "FOOD": 1,
-        "DRINKS": 2,
-        "AMBIENCE": 3,
-        "SERVICE": 4,
-        "LOCATION": 5
-    }
-    return switcher.get(entity, 1)
+def labeling_entity(entity, index):
+    switcher = [
+        "RESTAURANT",
+        "FOOD",
+        "DRINKS",
+        "AMBIENCE",
+        "SERVICE",
+        "LOCATION"
+    ]
+    return 1 if entity == switcher[index] else 0
 
 # MARK:- Get content from json data file
 
@@ -36,9 +35,13 @@ def readfile(filename):
             comments.append(rev['comment'])
             tags.append(rev['tags'])
 
-        for tag in tags:
-            print(tag.keys())
-            # labels.append(labeling_entity)
+        for i in range(0, len(tags)):
+            tag = tags[i]
+            for key_entity, value_entity in tag.items():
+                label = labeling_entity(key_entity, 1)
+                print(key_entity)
+                print(label)
+                print(";;;")
 
     return (comments, labels)
 
@@ -82,5 +85,5 @@ for word in nb.bag_dicts:
     print(word)
 
 
-#test(nb)
+# test(nb)
 """
