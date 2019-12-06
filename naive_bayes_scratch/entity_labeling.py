@@ -10,7 +10,7 @@ from NaiveBayes import NaiveBayes
 
 def test(nb):
     """
-    Test accuracy of Naive Bayes classifier provided
+    Test accuracy of provided Naive Bayes classifier
     """
     # start testing with test function
     (test_data, labels_set) = readfile('dev.json')
