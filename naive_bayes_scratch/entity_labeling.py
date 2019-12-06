@@ -1,16 +1,17 @@
-# MARK:- Libsfrom NaiveBayes import NaiveBayes
+# MARK:- Libs
 import numpy as np
 import json
-import time
 import re
-import pprint
 from NaiveBayes import NaiveBayes
-group_train = []
+
 
 # MARK:- support function
 
 
 def test(nb):
+    """
+    Test accuracy of Naive Bayes classifier provided
+    """
     # start testing with test function
     (test_data, labels_set) = readfile('dev.json')
     test_labels = labels_set[0]
@@ -26,6 +27,9 @@ def test(nb):
 
 
 def dev(nb, dev_data, dev_label):
+    """
+    Development test
+    """
     # start testing with test function
 
     print("Number of Dev Examples: ", len(dev_data))
@@ -37,10 +41,11 @@ def dev(nb, dev_data, dev_label):
     test_acc = np.sum(pclasses == dev_label)/float(len(dev_label))
     print("Dev Set Accuracy: ", test_acc*100, "%")
 
-# label each review based on defined entity
-
 
 def labeling_entity(tag, index):
+    """
+    Label each review based on defined entity
+    """
     switcher = [
         "RESTAURANT",
         "FOOD",
@@ -51,10 +56,49 @@ def labeling_entity(tag, index):
     ]
     return 1 if switcher[index] in tag.keys() else 0
 
-# MARK:- Get content from json data file
+
+def cross_validation(ori_data, ori_labels):
+    """
+    Cross validation within the given dataset
+    """
+    min_range = 0
+    indexer = len(ori_labels) // 10
+    for i in range(10):
+        if min_range == 0:
+            train_data = ori_data[indexer:]
+            train_labels = ori_labels[indexer:]
+
+            dev_data = ori_data[: indexer]
+            dev_labels = ori_labels[: indexer]
+        else:
+            if indexer > len(ori_data):
+                train_data = ori_data[0: min_range]
+                train_labels = ori_labels[0: min_range]
+
+                dev_data = ori_data[min_range:]
+                dev_labels = ori_labels[min_range:]
+
+            else:
+                train_data = ori_data[0: min_range] + ori_data[indexer:]
+                train_labels = ori_labels[0:min_range] + ori_labels[indexer:]
+
+                dev_data = ori_data[min_range: indexer]
+                dev_labels = ori_labels[min_range: indexer]
+
+        nb.train(train_data, train_labels)
+        dev(nb, dev_data, dev_labels)
+
+        min_range += indexer
+        indexer += indexer
+
+        if (min_range >= len(ori_labels)):
+            break
 
 
 def readfile(filename):
+    """
+    Get content from json data file
+    """
     with open(filename, encoding='utf-8') as json_file:
         reviews = json.load(json_file)
         comments = []
@@ -63,8 +107,6 @@ def readfile(filename):
         for rev in reviews:
             comments.append(rev['comment'])
             tags.append(rev['tags'])
-
-        # pprint.pprint(tags[:3])
 
         for i in range(0, 5):
             temp = []
@@ -75,7 +117,7 @@ def readfile(filename):
     return (comments, labels)
 
 
-# MARK:- start training data
+# MARK:- Main script
 (ori_data, label_sets) = readfile('train.json')
 
 ori_labels = label_sets[0]
@@ -88,38 +130,7 @@ nb = NaiveBayes(np.unique(ori_labels))  # instantiate a NB class object
 print("---------------- Training In Progress --------------------")
 
 # start training by calling the train function
-min_range = 0
-indexer = len(ori_labels) // 10
-for i in range(10):
-    if min_range == 0:
-        train_data = ori_data[indexer:]
-        train_labels = ori_labels[indexer:]
-
-        dev_data = ori_data[: indexer]
-        dev_labels = ori_labels[: indexer]
-    else:
-        if indexer > len(ori_data):
-            train_data = ori_data[0: min_range]
-            train_labels = ori_labels[0: min_range]
-
-            dev_data = ori_data[min_range:]
-            dev_labels = ori_labels[min_range:]
-
-        else:
-            train_data = ori_data[0: min_range] + ori_data[indexer:]
-            train_labels = ori_labels[0:min_range] + ori_labels[indexer:]
-
-            dev_data = ori_data[min_range : indexer]
-            dev_labels = ori_labels[min_range: indexer]
-
-    nb.train(train_data, train_labels)
-    dev(nb, dev_data, dev_labels)
-
-    min_range += indexer
-    indexer += indexer
-    
-    if (min_range >= len(ori_labels)):
-        break
+cross_validation(ori_data, ori_labels)
 
 
 print('----------------- Training Completed ---------------------')
