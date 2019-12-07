@@ -89,7 +89,7 @@ def e0_labeling(tags):
     for i in range(len(tags)):
         tag = tags[i]
         entity = labeling_entity(tag, 0)
-        
+
         if (entity != 1):
             # means that this comment doesn't mentions Entity 0
             general_labels.append(0)
@@ -104,6 +104,7 @@ def e0_labeling(tags):
 
     return (general_labels, prices_labels, mis_labels)
 
+
 def e1_labeling(tags):
     """
     return labels for PRICES, QUALITY and STYLE&OPTIONS in Entity 1, respectively
@@ -114,7 +115,7 @@ def e1_labeling(tags):
     for i in range(len(tags)):
         tag = tags[i]
         entity = labeling_entity(tag, 1)
-        
+
         if (entity != 1):
             # means that this comment doesn't mentions Entity 1
             prices_labels.append(0)
@@ -129,6 +130,7 @@ def e1_labeling(tags):
 
     return (prices_labels, quality_labels, style_labels)
 
+
 def e2_labeling(tags):
     """
     return labels for PRICES, QUALITY and STYLE&OPTIONS in Entity 2, respectively
@@ -138,8 +140,8 @@ def e2_labeling(tags):
     style_labels = []
     for i in range(len(tags)):
         tag = tags[i]
-        entity = labeling_entity(tag, 1)
-        
+        entity = labeling_entity(tag, 2)
+
         if (entity != 1):
             # means that this comment doesn't mentions Entity 2
             prices_labels.append(0)
@@ -154,6 +156,7 @@ def e2_labeling(tags):
 
     return (prices_labels, quality_labels, style_labels)
 
+
 def e3_labeling(tags):
     """
     return labels for GENERAL in Entity 3
@@ -161,8 +164,8 @@ def e3_labeling(tags):
     general_labels = []
     for i in range(len(tags)):
         tag = tags[i]
-        entity = labeling_entity(tag, 0)
-        
+        entity = labeling_entity(tag, 3)
+
         if (entity != 1):
             # means that this comment doesn't mentions Entity 3
             general_labels.append(0)
@@ -173,6 +176,7 @@ def e3_labeling(tags):
 
     return general_labels
 
+
 def e4_labeling(tags):
     """
     return labels for GENERAL in Entity 4
@@ -180,8 +184,8 @@ def e4_labeling(tags):
     general_labels = []
     for i in range(len(tags)):
         tag = tags[i]
-        entity = labeling_entity(tag, 0)
-        
+        entity = labeling_entity(tag, 4)
+
         if (entity != 1):
             # means that this comment doesn't mentions Entity 4
             general_labels.append(0)
@@ -192,6 +196,7 @@ def e4_labeling(tags):
 
     return general_labels
 
+
 def e5_labeling(tags):
     """
     return labels for GENERAL in Entity 5
@@ -199,8 +204,8 @@ def e5_labeling(tags):
     general_labels = []
     for i in range(len(tags)):
         tag = tags[i]
-        entity = labeling_entity(tag, 0)
-        
+        entity = labeling_entity(tag, 5)
+
         if (entity != 1):
             # means that this comment doesn't mentions Entity 5
             general_labels.append(0)
@@ -214,8 +219,6 @@ def e5_labeling(tags):
 
 # MARK:- Main scripts
 (comments, tags, indexs) = readfile('train.json')
-(general_labels,  prices_labels, mis_labels) = e1_labeling(tags)
+general_labels = e5_labeling(tags)
 print(len(comments))
 print(len(general_labels))
-print(len(prices_labels))
-print(len(mis_labels))
