@@ -154,6 +154,63 @@ def e2_labeling(tags):
 
     return (prices_labels, quality_labels, style_labels)
 
+def e3_labeling(tags):
+    """
+    return labels for GENERAL in Entity 3
+    """
+    general_labels = []
+    for i in range(len(tags)):
+        tag = tags[i]
+        entity = labeling_entity(tag, 0)
+        
+        if (entity != 1):
+            # means that this comment doesn't mentions Entity 3
+            general_labels.append(0)
+        else:
+            # if it does, identify the mentioned attributes of Entity 3
+            name_tag = tag["AMBIENCE"]
+            general_labels.append(general_labeler(name_tag))
+
+    return general_labels
+
+def e4_labeling(tags):
+    """
+    return labels for GENERAL in Entity 4
+    """
+    general_labels = []
+    for i in range(len(tags)):
+        tag = tags[i]
+        entity = labeling_entity(tag, 0)
+        
+        if (entity != 1):
+            # means that this comment doesn't mentions Entity 4
+            general_labels.append(0)
+        else:
+            # if it does, identify the mentioned attributes of Entity 4
+            name_tag = tag["SERVICE"]
+            general_labels.append(general_labeler(name_tag))
+
+    return general_labels
+
+def e5_labeling(tags):
+    """
+    return labels for GENERAL in Entity 5
+    """
+    general_labels = []
+    for i in range(len(tags)):
+        tag = tags[i]
+        entity = labeling_entity(tag, 0)
+        
+        if (entity != 1):
+            # means that this comment doesn't mentions Entity 5
+            general_labels.append(0)
+        else:
+            # if it does, identify the mentioned attributes of Entity 5
+            name_tag = tag["LOCATION"]
+            general_labels.append(general_labeler(name_tag))
+
+    return general_labels
+
 
 # MARK:- Main scripts
 (comments, tags, indexs) = readfile('train.json')
