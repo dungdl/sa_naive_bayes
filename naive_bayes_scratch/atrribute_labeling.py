@@ -104,10 +104,35 @@ def e0_labeling(tags):
 
     return (general_labels, prices_labels, mis_labels)
 
+def e1_labeling(tags):
+    """
+    return labels for PRICES, QUALITY and STYLE&OPTIONS in Entity 1, respectively
+    """
+    prices_labels = []
+    quality_labels = []
+    style_labels = []
+    for i in range(len(tags)):
+        tag = tags[i]
+        entity = labeling_entity(tag, 1)
+        
+        if (entity != 1):
+            # means that this comment doesn't mentions Entity 1
+            prices_labels.append(0)
+            quality_labels.append(0)
+            style_labels.append(0)
+        else:
+            # if it does, identify the mentioned attributes of Entity 1
+            name_tag = tag["FOOD"]
+            prices_labels.append(prices_labeler(name_tag))
+            quality_labels.append(quality_labeler(name_tag))
+            style_labels.append(style_labeler(name_tag))
+
+    return (prices_labels, quality_labels, style_labels)
+
 
 # MARK:- Main scripts
 (comments, tags, indexs) = readfile('train.json')
-(general_labels,  prices_labels, mis_labels) = e0_labeling(tags)
+(general_labels,  prices_labels, mis_labels) = e1_labeling(tags)
 print(len(comments))
 print(len(general_labels))
 print(len(prices_labels))
