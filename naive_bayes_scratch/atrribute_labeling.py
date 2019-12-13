@@ -21,6 +21,8 @@ def labeling_entity(tag, index):
     ]
     return 1 if switcher[index] in tag.keys() else 0
 
+# TO-DO: binary labeling for each attribute
+
 
 def general_labeler(attr):
     """
@@ -61,22 +63,7 @@ def mis_labeler(attr):
     key = "MISCELLANEOUS"
     return 1 if key in attr else 0
 
-
-# MARK:- support functions
-
-def readfile(filename):
-    with open(filename, encoding='utf-8') as json_file:
-        reviews = json.load(json_file)
-        comments = []
-        labels = []
-        tags = []
-        indexs = []
-        for rev in reviews:
-            comments.append(rev['comment'])
-            tags.append(rev['tags'])
-            indexs.append(rev['index'])
-
-    return (comments, tags, indexs)
+# TO-DO:- labeling attributes in each entity
 
 
 def e0_labeling(tags):
@@ -215,6 +202,23 @@ def e5_labeling(tags):
             general_labels.append(general_labeler(name_tag))
 
     return general_labels
+
+
+# MARK:- support functions
+
+def readfile(filename):
+    with open(filename, encoding='utf-8') as json_file:
+        reviews = json.load(json_file)
+        comments = []
+        labels = []
+        tags = []
+        indexs = []
+        for rev in reviews:
+            comments.append(rev['comment'])
+            tags.append(rev['tags'])
+            indexs.append(rev['index'])
+
+    return (comments, tags, indexs)
 
 
 # MARK:- Main scripts
