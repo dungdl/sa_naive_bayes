@@ -5,6 +5,7 @@ import time
 import re
 import pprint
 from NaiveBayes import NaiveBayes
+from entity_labeling import cross_validation
 
 
 # MARK:- labeling functions
@@ -203,7 +204,6 @@ def e5_labeling(tags):
 
     return general_labels
 
-
 # MARK:- support functions
 
 def readfile(filename):
@@ -224,8 +224,8 @@ def readfile(filename):
 # MARK:- Main scripts
 
 (comments, tags, indexs) = readfile('train.json')  # get data from input file
-
-# Entity Labeling
+label = []
+# # Entity Labeling
 (e0_generals, e0_prices, e0_miscels) = e0_labeling(tags)
 (e1_prices, e1_quaity, e1_sno) = e1_labeling(tags)
 (e2_prices, e2_quaity, e2_sno) = e2_labeling(tags)
@@ -233,17 +233,55 @@ e3general_labels = e3_labeling(tags)
 e4general_labels = e4_labeling(tags)
 e5general_labels = e5_labeling(tags)
 
-# MARK:- Training session
+# # MARK:- Training session
 
+label = [
+    e0_generals, e0_prices, e0_miscels,
+    e1_prices, e1_quaity, e1_sno,
+    e2_prices, e2_quaity, e2_sno,
+    e3general_labels,
+    e4general_labels,
+    e5general_labels
+]
 
-# Training e0 attributes
-# ----e0 GENERAL
-print("[Training with VLSP 2018]")
-nb = NaiveBayes(np.unique(e0_generals))
-print("---------------- Training In Progress --------------------")
-cross_validation(comments, e0_generals)
-print('----------------- Training Completed ---------------------')
+def indexToName(index):
+    if index == 0:
+        return "RESTAURENT_generals"
+    if index == 1:
+        return "RESTAURENT_prices"
+    if index == 2:
+        return "RESTAURENT_miscels"
+    if index == 3:
+        return "FOOD_prices"
+    if index == 4:
+        return "FOOD_quality"
+    if index == 5:
+        return "FOOD_sno"
+    if index == 6:
+        return "DRINKS_prices"
+    if index == 7:
+        return "DRINKS_quality"
+    if index == 8:
+        return "DRINKS_sno"
+    if index == 9:
+        return "AMBIENCE_generals"
+    if index == 10:
+        return "SERVICE_generals"
+    if index == 11:
+        return "LOCATION_generals"
+    
+classifiers = []
 
+for i in range (0, 12):
+    print ("Training: " + indexToName(i))
+    # ----e0 GENERAL
+    print("[Training with VLSP 2018]")
+    nb = NaiveBayes(np.unique(label[i]))
+    print("---------------- Training In Progress --------------------")
+    cross_validation(nb, comments, label[i])
+    print('----------------- Training Completed ---------------------')
 
-print(len(comments))
-print(len(e0_generals))
+    print(len(comments))
+    print(len(label[i]))
+
+    classifiers.append(nb)

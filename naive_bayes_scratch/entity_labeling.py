@@ -77,7 +77,7 @@ def labeling_entity(tag, index):
     return 1 if switcher[index] in tag.keys() else 0
 
 
-def cross_validation(ori_data, ori_labels):
+def cross_validation(nb, ori_data, ori_labels):
     """
     Cross validation within the given dataset
     """
@@ -141,21 +141,35 @@ def readfile(filename):
     return (comments, labels)
 
 
-# MARK:- Main script
-(ori_data, label_sets) = readfile('train.json')
+# # MARK:- Main script
+# (ori_data, label_sets) = readfile('train.json')
 
-ori_labels = label_sets[0]
+# for i in range(0, 6):
+#     if (i == 0):
+#         print("Training Restaurant")
+#     elif (i == 1):
+#         print("Training Food")
+#     elif (i == 2):
+#         print("Training Drink")
+#     elif (i == 3):
+#         print("Training Ambience")
+#     elif (i == 4):
+#         print("Training Service")
+#     elif (i == 5):
+#         print("Training Location")
 
-print("Number of Train Examples: ", len(ori_data))
-print("Number of Train Labels: ", len(ori_labels))
+#     ori_labels = label_sets[i]
 
-print("[Training with VLSP 2018]")
-nb = NaiveBayes(np.unique(ori_labels))  # instantiate a NB class object
-print("---------------- Training In Progress --------------------")
+#     print("Number of Train Examples: ", len(ori_data))
+#     print("Number of Train Labels: ", len(ori_labels))
 
-# start training by calling the train function
-cross_validation(ori_data, ori_labels)
+#     print("[Training with VLSP 2018]")
+#     nb = NaiveBayes(np.unique(ori_labels))  # instantiate a NB class object
+#     print("---------------- Training In Progress --------------------")
+
+#     # start training by calling the train function
+#     cross_validation(ori_data, ori_labels)
 
 
-print('----------------- Training Completed ---------------------')
-# predict(nb)
+#     print('----------------- Training Completed ---------------------')
+#     test(nb)
