@@ -222,7 +222,17 @@ def readfile(filename):
 
 
 # MARK:- Main scripts
-(comments, tags, indexs) = readfile('train.json')
-general_labels = e5_labeling(tags)
+
+(comments, tags, indexs) = readfile('train.json')  # get data from input file
+
+# Entity Labeling
+(e0_generals, e0_prices, e0_miscels) = e0_labeling(tags)
+(e1_prices, e1_quaity, e1_sno) = e1_labeling(tags)
+(e2_prices, e2_quaity, e2_sno) = e2_labeling(tags)
+e3general_labels = e3_labeling(tags)
+e4general_labels = e4_labeling(tags)
+e5general_labels = e5_labeling(tags)
+
+
 print(len(comments))
-print(len(general_labels))
+print(len(e0_generals))
