@@ -233,6 +233,8 @@ e3general_labels = e3_labeling(tags)
 e4general_labels = e4_labeling(tags)
 e5general_labels = e5_labeling(tags)
 
+# Training
+
 
 print(len(comments))
 print(len(e0_generals))

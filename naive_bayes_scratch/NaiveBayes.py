@@ -118,6 +118,44 @@ class NaiveBayes:
                             denominators[cate_index]) for cate_index, cate in enumerate(self.classes)]
         self.cates_info = np.array(self.cates_info)
 
+
+    # TO-DO: training by cross-validation (10-fold)
+    def cross_validation(self, ori_data, ori_labels):
+    """
+    Cross validation within the given dataset
+    """
+    min_range = 0
+    indexer = len(ori_labels) // 10
+    max_range = indexer
+    for i in range(10):
+        if min_range == 0:
+            train_data = ori_data[max_range:]
+            train_labels = ori_labels[max_range:]
+
+            dev_data = ori_data[: max_range]
+            dev_labels = ori_labels[: max_range]
+        else:
+            if max_range > len(ori_data):
+                train_data = ori_data[0: min_range]
+                train_labels = ori_labels[0: min_range]
+
+                dev_data = ori_data[min_range:]
+                dev_labels = ori_labels[min_range:]
+
+            else:
+                train_data = ori_data[0: min_range] + ori_data[max_range:]
+                train_labels = ori_labels[0:min_range] + ori_labels[max_range:]
+
+                dev_data = ori_data[min_range: max_range]
+                dev_labels = ori_labels[min_range: max_range]
+
+        nb.train(train_data, train_labels)
+
+        min_range += indexer
+        max_range += indexer
+
+        if (min_range >= len(ori_labels)):
+            break
     # TO-DO: calculate the posterior probability of given test example
 
     def calExProb(self, test_ex):
