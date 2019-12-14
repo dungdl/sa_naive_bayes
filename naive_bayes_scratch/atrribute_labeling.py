@@ -233,7 +233,16 @@ e3general_labels = e3_labeling(tags)
 e4general_labels = e4_labeling(tags)
 e5general_labels = e5_labeling(tags)
 
-# Training
+# MARK:- Training session
+
+
+# Training e0 attributes
+# ----e0 GENERAL
+print("[Training with VLSP 2018]")
+nb = NaiveBayes(np.unique(e0_generals))
+print("---------------- Training In Progress --------------------")
+cross_validation(comments, e0_generals)
+print('----------------- Training Completed ---------------------')
 
 
 print(len(comments))
