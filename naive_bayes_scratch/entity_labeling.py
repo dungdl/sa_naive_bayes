@@ -2,6 +2,7 @@
 import numpy as np
 import json
 import re
+import time
 from NaiveBayes import NaiveBayes
 
 
@@ -24,6 +25,25 @@ def test(nb):
     # check how many predictions actually match original test labels
     test_acc = np.sum(pclasses == test_labels)/float(len(test_labels))
     print("Test Set Accuracy: ", test_acc*100, "%")
+
+def predict(nb):
+    """
+    Predict a sample
+    """
+    (test_data, labels_set) = readfile('dev.json')
+    test_labels = labels_set[0]
+
+    print("Number of Test Examples: ", len(test_data))
+    print("Number of Test Labels: ", len(test_labels))
+
+    for i in range (100):
+        prediction = nb.predict(test_data[i])
+        print("====================")
+        print(test_data[i])
+        print(test_labels[i])
+        print(prediction)
+        print("=========^^^========")
+        time.sleep(2)
 
 
 def dev(nb, dev_data, dev_label):
@@ -63,15 +83,16 @@ def cross_validation(ori_data, ori_labels):
     """
     min_range = 0
     indexer = len(ori_labels) // 10
+    max_range = indexer
     for i in range(10):
         if min_range == 0:
-            train_data = ori_data[indexer:]
-            train_labels = ori_labels[indexer:]
+            train_data = ori_data[max_range:]
+            train_labels = ori_labels[max_range:]
 
-            dev_data = ori_data[: indexer]
-            dev_labels = ori_labels[: indexer]
+            dev_data = ori_data[: max_range]
+            dev_labels = ori_labels[: max_range]
         else:
-            if indexer > len(ori_data):
+            if max_range > len(ori_data):
                 train_data = ori_data[0: min_range]
                 train_labels = ori_labels[0: min_range]
 
@@ -79,19 +100,22 @@ def cross_validation(ori_data, ori_labels):
                 dev_labels = ori_labels[min_range:]
 
             else:
-                train_data = ori_data[0: min_range] + ori_data[indexer:]
-                train_labels = ori_labels[0:min_range] + ori_labels[indexer:]
+                train_data = ori_data[0: min_range] + ori_data[max_range:]
+                train_labels = ori_labels[0:min_range] + ori_labels[max_range:]
 
-                dev_data = ori_data[min_range: indexer]
-                dev_labels = ori_labels[min_range: indexer]
+                dev_data = ori_data[min_range: max_range]
+                dev_labels = ori_labels[min_range: max_range]
 
         nb.train(train_data, train_labels)
         dev(nb, dev_data, dev_labels)
 
         min_range += indexer
-        indexer += indexer
+        max_range += indexer
 
         if (min_range >= len(ori_labels)):
+            print(min_range)
+            print(len(ori_labels))
+            print("out of labels")
             break
 
 
@@ -134,4 +158,4 @@ cross_validation(ori_data, ori_labels)
 
 
 print('----------------- Training Completed ---------------------')
-test(nb)
+# predict(nb)
