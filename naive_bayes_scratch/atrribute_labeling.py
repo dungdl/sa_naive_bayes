@@ -206,6 +206,7 @@ def e5_labeling(tags):
 
 # MARK:- support functions
 
+
 def readfile(filename):
     with open(filename, encoding='utf-8') as json_file:
         reviews = json.load(json_file)
@@ -244,44 +245,42 @@ label = [
     e5general_labels
 ]
 
+
 def indexToName(index):
-    if index == 0:
-        return "RESTAURENT_generals"
-    if index == 1:
-        return "RESTAURENT_prices"
-    if index == 2:
-        return "RESTAURENT_miscels"
-    if index == 3:
-        return "FOOD_prices"
-    if index == 4:
-        return "FOOD_quality"
-    if index == 5:
-        return "FOOD_sno"
-    if index == 6:
-        return "DRINKS_prices"
-    if index == 7:
-        return "DRINKS_quality"
-    if index == 8:
-        return "DRINKS_sno"
-    if index == 9:
-        return "AMBIENCE_generals"
-    if index == 10:
-        return "SERVICE_generals"
-    if index == 11:
-        return "LOCATION_generals"
-    
+    switcher = {
+        0: "RESTAURENT_generals",
+        1: "RESTAURENT_prices",
+        2: "RESTAURENT_miscels",
+        3: "FOOD_prices",
+        4: "FOOD_quality",
+        5: "FOOD_sno",
+        6: "DRINKS_prices",
+        7: "DRINKS_quality",
+        8: "DRINKS_sno",
+        9: "AMBIENCE_generals",
+        10: "SERVICE_generals",
+        11: "LOCATION_generals"
+    }
+    return switcher.get(index, 12)
+
+
 classifiers = []
 
-for i in range (0, 12):
-    print ("Training: " + indexToName(i))
-    # ----e0 GENERAL
-    print("[Training with VLSP 2018]")
-    nb = NaiveBayes(np.unique(label[i]))
-    print("---------------- Training In Progress --------------------")
-    cross_validation(nb, comments, label[i])
-    print('----------------- Training Completed ---------------------')
+print("[Training with VLSP 2018]")
+print("---------------- Training In Progress --------------------")
 
+for i in range(0, 12):
+    print("Training: " + indexToName(i))
+
+    nb = NaiveBayes(np.unique(label[i]))
+
+    print('-------- Start Cross Validation ------------')
+    cross_validation(nb, comments, label[i])
+    print('-------- End Cross Validation ------------')
     print(len(comments))
     print(len(label[i]))
 
     classifiers.append(nb)
+
+
+print('----------------- Training Completed ---------------------')
