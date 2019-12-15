@@ -6,7 +6,7 @@ categories = ['alt.atheism', 'soc.religion.christian',
               'comp.graphics', 'sci.med']
 newsgroups_train = fetch_20newsgroups(subset='train', categories=categories)
 
-train_data = newsgroups_train.data  # getting all trainign examples
+train_data = newsgroups_train.data  # getting all training examples
 train_labels = newsgroups_train.target
 
 print("[Training with fetch_20newsgroups]")
