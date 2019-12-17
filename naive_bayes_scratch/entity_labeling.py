@@ -180,9 +180,9 @@ temp = {}
 t = {}
 temp["classes"] = ent.classes.tolist()
 oriDic = sorted(ent.cates_info[0][0].items(), key=lambda item: item[1], reverse=True)
-myDic = []
+myDic = {}
 for k,v in oriDic:
-    myDic.append({k:v})
+    myDic[k] = v
 t["dict"] = myDic
 t["pd"] = ent.cates_info[0][1]
 t["total"] = ent.cates_info[0][2]
