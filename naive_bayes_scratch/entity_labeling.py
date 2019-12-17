@@ -176,18 +176,20 @@ for i in range(0, 1):
 import io, json 
 
 ent = classifiers[0]
-# print(ent.cates_info[0])
 temp = {}
 t = {}
-temp["classes"] = ent.classes
-t["dict"] = sorted(ent.cates_info[0][0].items(), key=lambda item: item[1])
+temp["classes"] = ent.classes.tolist()
+oriDic = sorted(ent.cates_info[0][0].items(), key=lambda item: item[1], reverse=True)
+myDic = []
+for k,v in oriDic:
+    myDic.append({k:v})
+t["dict"] = myDic
 t["pd"] = ent.cates_info[0][1]
 t["total"] = ent.cates_info[0][2]
 
 temp["cates_info"] = t
-
-parsed_json = json.dumps(temp, indent=4,
-                                 sort_keys=True, ensure_ascii=False)
+# print(type(temp["classes"]))
+parsed_json = json.dumps(temp, indent=4, sort_keys=True, ensure_ascii=False)
 
 file = io.open("test.json", "w", encoding='utf-8')
 file.write(parsed_json)
