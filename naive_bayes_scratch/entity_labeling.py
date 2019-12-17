@@ -84,7 +84,7 @@ def cross_validation(nb, ori_data, ori_labels):
     min_range = 0
     indexer = len(ori_labels) // 10
     max_range = indexer
-    for i in range(10):
+    for i in range(1):
         if min_range == 0:
             train_data = ori_data[max_range:]
             train_labels = ori_labels[max_range:]
@@ -141,35 +141,54 @@ def readfile(filename):
     return (comments, labels)
 
 
-# # MARK:- Main script
-# (ori_data, label_sets) = readfile('train.json')
+# MARK:- Main script
+(ori_data, label_sets) = readfile('train.json')
+classifiers = []
 
-# for i in range(0, 6):
-#     if (i == 0):
-#         print("Training Restaurant")
-#     elif (i == 1):
-#         print("Training Food")
-#     elif (i == 2):
-#         print("Training Drink")
-#     elif (i == 3):
-#         print("Training Ambience")
-#     elif (i == 4):
-#         print("Training Service")
-#     elif (i == 5):
-#         print("Training Location")
+for i in range(0, 1):
+    if (i == 0):
+        print("Training Restaurant")
+    elif (i == 1):
+        print("Training Food")
+    elif (i == 2):
+        print("Training Drink")
+    elif (i == 3):
+        print("Training Ambience")
+    elif (i == 4):
+        print("Training Service")
+    elif (i == 5):
+        print("Training Location")
 
-#     ori_labels = label_sets[i]
+    ori_labels = label_sets[i]
 
-#     print("Number of Train Examples: ", len(ori_data))
-#     print("Number of Train Labels: ", len(ori_labels))
+    print("Number of Train Examples: ", len(ori_data))
+    print("Number of Train Labels: ", len(ori_labels))
 
-#     print("[Training with VLSP 2018]")
-#     nb = NaiveBayes(np.unique(ori_labels))  # instantiate a NB class object
-#     print("---------------- Training In Progress --------------------")
+    print("[Training with VLSP 2018]")
+    nb = NaiveBayes(np.unique(ori_labels))  # instantiate a NB class object
+    print("---------------- Training In Progress --------------------")
 
-#     # start training by calling the train function
-#     cross_validation(ori_data, ori_labels)
+    # start training by calling the train function
+    cross_validation(nb, ori_data, ori_labels)
+    classifiers.append(nb)
+    print('----------------- Training Completed ---------------------')
 
+import io, json 
 
-#     print('----------------- Training Completed ---------------------')
-#     test(nb)
+ent = classifiers[0]
+# print(ent.cates_info[0])
+temp = {}
+t = {}
+temp["classes"] = ent.classes
+t["dict"] = sorted(ent.cates_info[0][0].items(), key=lambda item: item[1])
+t["pd"] = ent.cates_info[0][1]
+t["total"] = ent.cates_info[0][2]
+
+temp["cates_info"] = t
+
+parsed_json = json.dumps(temp, indent=4,
+                                 sort_keys=True, ensure_ascii=False)
+
+file = io.open("test.json", "w", encoding='utf-8')
+file.write(parsed_json)
+file.close()
