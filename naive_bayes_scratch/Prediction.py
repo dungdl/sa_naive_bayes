@@ -56,5 +56,11 @@ class Model:
         self.entity_detectors = entity_detectors
         self.attr_detectors = attr_detectors
         self.polar_classifiers = polar_classifiers
+        self.json_object = []
     
-        
+    
+    # TO-DO: save entity detectors
+    def __save_entity(self):
+        temp = {}
+        for ent in self.entity_detectors:
+            temp[]
