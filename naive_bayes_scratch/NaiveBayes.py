@@ -2,44 +2,7 @@
 import numpy as np
 import pandas as pd
 from collections import defaultdict
-from pyvi import ViTokenizer
-import re
-
-# MARK:- Support methods
-
-# preprocessing data
-
-
-def preprocessing_string(str):
-
-    emoji_pattern = re.compile(
-        u"(\ud83d[\ude00-\ude4f])|"  # emoticons
-        u"(\ud83c[\udf00-\uffff])|"  # symbols & pictographs (1 of 2)
-        u"(\ud83d[\u0000-\uddff])|"  # symbols & pictographs (2 of 2)
-        u"(\ud83d[\ude80-\udeff])|"  # transport & map symbols
-        u"(\ud83c[\udde0-\uddff])"  # flags (iOS)
-        "+", flags=re.UNICODE)
-
-    emoji_pattern.sub(r'', str)
-
-    # get all words from input string as space is the delimiter
-    words = re.split(' ', str)
-
-    # regex to detect special characters:
-    max = len(words) - 1
-    for i in range(0, max):
-        words[i] = re.sub('r[^\w\s]+', '', words[i], flags=re.IGNORECASE)
-        if re.match(r'\w', words[i]):
-            words[i] = re.sub(
-                r'[-@_!#$%^&*()<>?/\|}{~:,.]', ' ', words[i], flags=re.IGNORECASE)
-        else:
-            words[i] = ''
-    # clean string:
-    cleaned_str = ' '.join(word for word in words)
-    cleaned_str = re.sub('(\s+)', ' ', cleaned_str)
-    cleaned_str = cleaned_str.lower()
-    cleaned_str = ViTokenizer.tokenize(cleaned_str)
-    return cleaned_str
+from Support import Support
 
 # MARK:- NB class
 
@@ -79,7 +42,7 @@ class NaiveBayes:
             all_cate_examples = self.examples[self.labels == cate]
 
             # clean examples
-            cleaned_exams = [preprocessing_string(
+            cleaned_exams = [Support.preprocessing_string(
                 cate_exam) for cate_exam in all_cate_examples]
             cleaned_exams = pd.DataFrame(data=cleaned_exams)
 
@@ -127,7 +90,7 @@ class NaiveBayes:
         min_range = 0
         indexer = len(ori_labels) // 10
         max_range = indexer
-        for i in range(10):
+        for i in range(1):
             if min_range == 0:
                 train_data = ori_data[max_range:]
                 train_labels = ori_labels[max_range:]
@@ -149,7 +112,7 @@ class NaiveBayes:
                     dev_data = ori_data[min_range: max_range]
                     dev_labels = ori_labels[min_range: max_range]
 
-            nb.train(train_data, train_labels)
+            self.train(train_data, train_labels)
 
             min_range += indexer
             max_range += indexer
@@ -190,7 +153,7 @@ class NaiveBayes:
         for ex in test_set:
 
             # clean the example
-            cleaned_exams = preprocessing_string(ex)
+            cleaned_exams = Support.preprocessing_string(ex)
 
             # get posterior probability of every examples in test set
             post_prob = self.calExProb(cleaned_exams)
@@ -200,7 +163,7 @@ class NaiveBayes:
         return np.array(predictions)
 
     def predict(self, test_ex):
-        cleaned_exam = preprocessing_string(test_ex)
+        cleaned_exam = Support.preprocessing_string(test_ex)
         post_prob = self.calExProb(cleaned_exam)
         prediction = self.classes[np.argmax(post_prob)]
 
