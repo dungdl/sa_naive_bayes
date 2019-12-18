@@ -47,9 +47,11 @@ class Support:
         max = len(words) - 1
         for i in range(0, max):
             words[i] = re.sub('r[^\w\s]+', '', words[i], flags=re.IGNORECASE)
+            words[i] = re.sub(
+                    r'[-@_!#$%^&*()<>?/\|}{~:,.+=\[\]\\\'-;"`]', '', words[i], flags=re.IGNORECASE)
             if re.match(r'\w', words[i]):
                 words[i] = re.sub(
-                    r'[-@_!#$%^&*()<>?/\|}{~:,.]', ' ', words[i], flags=re.IGNORECASE)
+                    r'[-@_!#$%^&*()<>?/\|}{~:,.+=\[\]\\\'-;"`]', ' ', words[i], flags=re.IGNORECASE)
             else:
                 words[i] = ''
         # clean string:
