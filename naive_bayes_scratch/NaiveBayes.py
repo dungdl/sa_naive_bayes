@@ -23,7 +23,7 @@ class NaiveBayes:
             self.bag_dicts[dict_index][token_word] += 1
 
     # TO-DO: train the NB classifier
-    def train(self, dataset, labels):
+    def __train(self, dataset, labels):
         # read input params
         self.examples = dataset
         self.labels = labels
@@ -112,7 +112,7 @@ class NaiveBayes:
                     dev_data = ori_data[min_range: max_range]
                     dev_labels = ori_labels[min_range: max_range]
 
-            self.train(train_data, train_labels)
+            self.__train(train_data, train_labels)
 
             min_range += indexer
             max_range += indexer
@@ -121,7 +121,7 @@ class NaiveBayes:
                 break
     # TO-DO: calculate the posterior probability of given test example
 
-    def calExProb(self, test_ex):
+    def __calExProb(self, test_ex):
         likelihood_prob = np.zeros(self.classes.shape[0])
 
         for cate_index, cate in enumerate(self.classes):
@@ -148,6 +148,9 @@ class NaiveBayes:
 
     # TO-DO: estimate the probability of the prediction for given test set
     def test(self, test_set):
+        """
+        test current model with test_set
+        """
         predictions = []
 
         for ex in test_set:
@@ -156,15 +159,18 @@ class NaiveBayes:
             cleaned_exams = Support.preprocessing_string(ex)
 
             # get posterior probability of every examples in test set
-            post_prob = self.calExProb(cleaned_exams)
+            post_prob = self.__calExProb(cleaned_exams)
 
             predictions.append(self.classes[np.argmax(post_prob)])
 
         return np.array(predictions)
 
     def predict(self, test_ex):
+        """
+        return predicted class to given test example
+        """
         cleaned_exam = Support.preprocessing_string(test_ex)
-        post_prob = self.calExProb(cleaned_exam)
+        post_prob = self.__calExProb(cleaned_exam)
         prediction = self.classes[np.argmax(post_prob)]
 
         return prediction

@@ -1,17 +1,20 @@
 # MARK:- Libs
+from Prediction import Model
 import numpy as np
 import json
 from NaiveBayes import NaiveBayes
 from Support import Support
 
-# MARK:- labeling functions
+# MARK:- training class
+
+
 class AttributeLabel:
 
     def __init__(self):
-        # MARK:- Main scripts
-        (self.comments, tags) = self.__readfile('train.json')  # get data from input file
+        (self.comments, tags) = self.__readfile(
+            'train.json')  # get data from input file
         self.label = []
-        # # Entity Labeling
+        # Entity Labeling
         (e0_generals, e0_prices, e0_miscels) = self.__e0_labeling(tags)
         (e1_prices, e1_quaity, e1_sno) = self.__e1_labeling(tags)
         (e2_prices, e2_quaity, e2_sno) = self.__e2_labeling(tags)
@@ -19,7 +22,7 @@ class AttributeLabel:
         e4general_labels = self.__e4_labeling(tags)
         e5general_labels = self.__e5_labeling(tags)
 
-        # # MARK:- Training session
+        # save labels as a list
 
         self.label = [
             e0_generals, e0_prices, e0_miscels,
@@ -31,6 +34,9 @@ class AttributeLabel:
         ]
 
     def __labeling_entity(self, tag, index):
+        """
+        check if entity is in the tag list
+        """
         switcher = [
             "RESTAURANT",
             "FOOD",
@@ -41,8 +47,7 @@ class AttributeLabel:
         ]
         return 1 if switcher[index] in tag.keys() else 0
 
-    # TO-DO: binary labeling for each attribute
-
+    # MARK:- binary labeling for each attribute
 
     def __general_labeler(self, attr):
         """
@@ -51,14 +56,12 @@ class AttributeLabel:
         key = "GENERAL"
         return 1 if key in attr else 0
 
-
     def __prices_labeler(self, attr):
         """
         label 1 if attribute is PRICES and 0 otherwise
         """
         key = "PRICES"
         return 1 if key in attr else 0
-
 
     def __quality_labeler(self, attr):
         """
@@ -67,14 +70,12 @@ class AttributeLabel:
         key = "QUALITY"
         return 1 if key in attr else 0
 
-
     def __style_labeler(self, attr):
         """
         label 1 if attribute is STYLE&OPTIONS and 0 otherwise
         """
         key = "STYLE&OPTIONS"
         return 1 if key in attr else 0
-
 
     def __mis_labeler(self, attr):
         """
@@ -84,7 +85,6 @@ class AttributeLabel:
         return 1 if key in attr else 0
 
     # TO-DO:- labeling attributes in each entity
-
 
     def __e0_labeling(self, tags):
         """
@@ -111,7 +111,6 @@ class AttributeLabel:
 
         return (general_labels, prices_labels, mis_labels)
 
-
     def __e1_labeling(self, tags):
         """
         return labels for PRICES, QUALITY and STYLE&OPTIONS in Entity 1, respectively
@@ -136,7 +135,6 @@ class AttributeLabel:
                 style_labels.append(self.__style_labeler(name_tag))
 
         return (prices_labels, quality_labels, style_labels)
-
 
     def __e2_labeling(self, tags):
         """
@@ -163,7 +161,6 @@ class AttributeLabel:
 
         return (prices_labels, quality_labels, style_labels)
 
-
     def __e3_labeling(self, tags):
         """
         return labels for GENERAL in Entity 3
@@ -183,7 +180,6 @@ class AttributeLabel:
 
         return general_labels
 
-
     def __e4_labeling(self, tags):
         """
         return labels for GENERAL in Entity 4
@@ -202,7 +198,6 @@ class AttributeLabel:
                 general_labels.append(self.__general_labeler(name_tag))
 
         return general_labels
-
 
     def __e5_labeling(self, tags):
         """
@@ -225,8 +220,10 @@ class AttributeLabel:
 
     # MARK:- support functions
 
-
     def __readfile(self, filename):
+        """
+        return comments and relative tags as correspond lists
+        """
         with open(filename, encoding='utf-8') as json_file:
             reviews = json.load(json_file)
             comments = []
@@ -237,7 +234,12 @@ class AttributeLabel:
 
         return (comments, tags)
 
+    # MARK:- training session
+
     def train(self):
+        """
+        training the Attribute Classifier
+        """
         self.classifiers = []
 
         print("[Training Attribute Classifier with VLSP 2018]")
@@ -258,10 +260,10 @@ class AttributeLabel:
 
         print('----------------- Training Completed ---------------------')
 
+
 attrLabel = AttributeLabel()
 attrLabel.train()
 
-from Prediction import Model
 
 model = Model(attrLabel.classifiers, "attr")
 model.save()

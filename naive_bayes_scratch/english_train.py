@@ -14,7 +14,7 @@ nb = NaiveBayes(np.unique(train_labels))  # instantiate a NB class object
 print("---------------- Training In Progress --------------------")
 
 # start training by calling the train function
-nb.train(train_data, train_labels)
+nb.cross_validation(train_data, train_labels)
 print('----------------- Training Completed ---------------------')
 
 newsgroups_test = fetch_20newsgroups(

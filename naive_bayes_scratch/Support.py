@@ -9,6 +9,9 @@ class Support:
 
     @staticmethod
     def indexToName(index):
+        """
+        return name match input index
+        """
         switcher = {
             0: "RESTAURENT_generals",
             1: "RESTAURENT_prices",

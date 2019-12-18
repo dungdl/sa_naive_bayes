@@ -4,29 +4,20 @@ import json
 from NaiveBayes import NaiveBayes
 from Prediction import Model
 
+# MARK:- training class
+
 
 class EntityLabel:
 
     def __init__(self):
-        (self.ori_data, self.label_sets) = self.__readfile('train.json')
+        (self.ori_data, self.label_sets) = self.__readfile(
+            'train.json')  # get data from file
         self.classifiers = []
-
-        switcher = [
-            "Training Restaurant",
-            "Training Food",
-            "Training Drink",
-            "Training Ambience",
-            "Training Service",
-            "Training Location"
-        ]
-
+        # save original labels as a list
         for i in range(0, 6):
-            print(switcher[i])
-
             self.ori_labels = self.label_sets[i]
 
-            print("Number of Train Examples: ", len(self.ori_data))
-            print("Number of Train Labels: ", len(self.ori_labels))
+    # MARK:- labeling
 
     def __labeling_entity(self, tag, index):
         """
@@ -42,9 +33,10 @@ class EntityLabel:
         ]
         return 1 if switcher[index] in tag.keys() else 0
 
+    # MARK:- support functions
     def __readfile(self, filename):
         """
-        Get content from json data file
+        return comments and relative tags as correspond lists
         """
         with open(filename, encoding='utf-8') as json_file:
             reviews = json.load(json_file)
@@ -63,7 +55,11 @@ class EntityLabel:
 
         return (comments, labels)
 
+    # MARK:- training session
     def train(self):
+        """
+        training the Entity Classifier
+        """
         print("[Training Entity Classifier with VLSP 2018]")
         # instantiate a NB class object
         self.nb = NaiveBayes(np.unique(self.ori_labels))
@@ -73,6 +69,7 @@ class EntityLabel:
         self.nb.cross_validation(self.ori_data, self.ori_labels)
         self.classifiers.append(self.nb)
         print('----------------- Training Completed ---------------------')
+
 
 entLabel = EntityLabel()
 entLabel.train()

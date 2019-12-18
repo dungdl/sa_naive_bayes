@@ -81,7 +81,7 @@ nb = NaiveBayes(np.unique(train_labels))  # instantiate a NB class object
 print("---------------- Training In Progress --------------------")
 
 # start training by calling the train function
-nb.train(train_data, train_labels)
+nb.__train(train_data, train_labels)
 print('----------------- Training Completed ---------------------')
 
 test(nb)

@@ -1,17 +1,20 @@
 # MARK:- Libs
+from Prediction import Model
 import numpy as np
 import json
 from NaiveBayes import NaiveBayes
 from Support import Support
 
-# MARK:- labeling functions
+# MARK:- training class
+
+
 class PolarLabel:
 
     def __init__(self):
-        # MARK:- Main scripts
-
-        (self.comments, tags) = self.__readfile('train.json')  # get data from input file
+        (self.comments, tags) = self.__readfile(
+            'train.json')  # get data from input file
         self.label = []
+        # get labels
         (e0_generals, e0_prices, e0_miscels) = self.__e0_labeling(tags)
         (e1_prices, e1_quaity, e1_sno) = self.__e1_labeling(tags)
         (e2_prices, e2_quaity, e2_sno) = self.__e2_labeling(tags)
@@ -19,6 +22,7 @@ class PolarLabel:
         e4general_labels = self.__e4_labeling(tags)
         e5general_labels = self.__e5_labeling(tags)
 
+        # save labels as a list
         self.label = [
             e0_generals, e0_prices, e0_miscels,
             e1_prices, e1_quaity, e1_sno,
@@ -28,6 +32,7 @@ class PolarLabel:
             e5general_labels
         ]
 
+    # MARK:- labeling
     def __labeling_entity(self, tag, index):
         switcher = [
             "RESTAURANT",
@@ -47,9 +52,7 @@ class PolarLabel:
         }
         return switcher.get(val, 1)
 
-
-    # TO-DO: binary labeling for each attribute
-
+    # MARK:- binary labeling for each attribute
 
     def __general_labeler(self, attr):
         """
@@ -62,7 +65,6 @@ class PolarLabel:
             val = attr[key]
             return self.__opinion(val)
 
-
     def __prices_labeler(self, attr):
         """
         label 1 if attribute is PRICES and 0 otherwise
@@ -73,7 +75,6 @@ class PolarLabel:
         else:
             val = attr[key]
             return self.__opinion(val)
-
 
     def __quality_labeler(self, attr):
         """
@@ -86,7 +87,6 @@ class PolarLabel:
             val = attr[key]
             return self.__opinion(val)
 
-
     def __style_labeler(self, attr):
         """
         label 1 if attribute is STYLE&OPTIONS and 0 otherwise
@@ -97,7 +97,6 @@ class PolarLabel:
         else:
             val = attr[key]
             return self.__opinion(val)
-
 
     def __mis_labeler(self, attr):
         """
@@ -110,8 +109,7 @@ class PolarLabel:
             val = attr[key]
             return self.__opinion(val)
 
-    # TO-DO:- labeling attributes in each entity
-
+    # MARK:- labeling attributes in each entity
 
     def __e0_labeling(self, tags):
         """
@@ -138,7 +136,6 @@ class PolarLabel:
 
         return (general_labels, prices_labels, mis_labels)
 
-
     def __e1_labeling(self, tags):
         """
         return labels for PRICES, QUALITY and STYLE&OPTIONS in Entity 1, respectively
@@ -163,7 +160,6 @@ class PolarLabel:
                 style_labels.append(self.__style_labeler(name_tag))
 
         return (prices_labels, quality_labels, style_labels)
-
 
     def __e2_labeling(self, tags):
         """
@@ -190,7 +186,6 @@ class PolarLabel:
 
         return (prices_labels, quality_labels, style_labels)
 
-
     def __e3_labeling(self, tags):
         """
         return labels for GENERAL in Entity 3
@@ -209,7 +204,6 @@ class PolarLabel:
                 general_labels.append(self.__general_labeler(name_tag))
 
         return general_labels
-
 
     def __e4_labeling(self, tags):
         """
@@ -230,7 +224,6 @@ class PolarLabel:
 
         return general_labels
 
-
     def __e5_labeling(self, tags):
         """
         return labels for GENERAL in Entity 5
@@ -250,10 +243,12 @@ class PolarLabel:
 
         return general_labels
 
-
     # MARK:- support functions
 
     def __readfile(self, filename):
+        """
+        return comments and relative tags as correspond lists
+        """
         with open(filename, encoding='utf-8') as json_file:
             reviews = json.load(json_file)
             comments = []
@@ -264,7 +259,11 @@ class PolarLabel:
 
         return (comments, tags)
 
+    # MARK:- training session
     def train(self):
+        """
+        training the Polarity Classifier
+        """
         self.classifiers = []
 
         print("[Training Polarity Classifier with VLSP 2018]")
@@ -285,10 +284,10 @@ class PolarLabel:
 
         print('----------------- Training Completed ---------------------')
 
+
 polarLabel = PolarLabel()
 polarLabel.train()
 
-from Prediction import Model
 
 model = Model(polarLabel.classifiers, "polar")
 model.save()
