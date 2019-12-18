@@ -241,10 +241,10 @@ class AttributeLabel:
     def train(self):
         self.classifiers = []
 
-        print("[Training with VLSP 2018]")
+        print("[Training Attribute Classifier with VLSP 2018]")
         print("---------------- Training In Progress --------------------")
 
-        for i in range(0, 1):
+        for i in range(0, 12):
             print("Training: " + Support.indexToName(i))
 
             nb = NaiveBayes(np.unique(self.label[i]))

@@ -6,32 +6,29 @@ import time
 from NaiveBayes import NaiveBayes
 from Prediction import Model
 
+
 class EntityLabel:
 
     def __init__(self):
         (self.ori_data, self.label_sets) = self.__readfile('train.json')
         self.classifiers = []
 
+        switcher = []
+            "Training Restaurant",
+            "Training Food",
+            "Training Drink",
+            "Training Ambience",
+            "Training Service",
+            "Training Location"
+        ]
+
         for i in range(0, 6):
-            if (i == 0):
-                print("Training Restaurant")
-            elif (i == 1):
-                print("Training Food")
-            elif (i == 2):
-                print("Training Drink")
-            elif (i == 3):
-                print("Training Ambience")
-            elif (i == 4):
-                print("Training Service")
-            elif (i == 5):
-                print("Training Location")
+            print(switcher[i])
 
             self.ori_labels = self.label_sets[i]
 
             print("Number of Train Examples: ", len(self.ori_data))
             print("Number of Train Labels: ", len(self.ori_labels))
-
-            
 
     def __labeling_entity(self, tag, index):
         """
@@ -69,8 +66,9 @@ class EntityLabel:
         return (comments, labels)
 
     def train(self):
-        print("[Training with VLSP 2018]")
-        self.nb = NaiveBayes(np.unique(self.ori_labels))  # instantiate a NB class object
+        print("[Training Entity Classifier with VLSP 2018]")
+        # instantiate a NB class object
+        self.nb = NaiveBayes(np.unique(self.ori_labels))
         print("---------------- Training In Progress --------------------")
 
         # start training by calling the train function
