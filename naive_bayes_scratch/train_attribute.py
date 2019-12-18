@@ -1,7 +1,6 @@
 # MARK:- Libs
 import numpy as np
 import json
-import time
 from NaiveBayes import NaiveBayes
 from Support import Support
 

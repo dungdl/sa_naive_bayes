@@ -1,8 +1,6 @@
 # MARK:- Libs
 import numpy as np
 import json
-import re
-import time
 from NaiveBayes import NaiveBayes
 from Prediction import Model
 
@@ -13,7 +11,7 @@ class EntityLabel:
         (self.ori_data, self.label_sets) = self.__readfile('train.json')
         self.classifiers = []
 
-        switcher = []
+        switcher = [
             "Training Restaurant",
             "Training Food",
             "Training Drink",
@@ -76,7 +74,7 @@ class EntityLabel:
         self.classifiers.append(self.nb)
         print('----------------- Training Completed ---------------------')
 
-# entLabel = EntityLabel()
-# entLabel.train()
-# model = Model(entLabel.classifiers, "entity")
-# model.save()
+entLabel = EntityLabel()
+entLabel.train()
+model = Model(entLabel.classifiers, "entity")
+model.save()

@@ -1,9 +1,6 @@
 # MARK:- Libs
-import numpy as np
-import pandas as pd
 import re
 from collections import defaultdict
-from pyvi import ViTokenizer
 from NaiveBayes import NaiveBayes
 import io
 import json
