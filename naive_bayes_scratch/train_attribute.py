@@ -244,7 +244,7 @@ class AttributeLabel:
         print("[Training with VLSP 2018]")
         print("---------------- Training In Progress --------------------")
 
-        for i in range(0, 12):
+        for i in range(0, 1):
             print("Training: " + Support.indexToName(i))
 
             nb = NaiveBayes(np.unique(self.label[i]))
@@ -259,10 +259,10 @@ class AttributeLabel:
 
         print('----------------- Training Completed ---------------------')
 
-# attrLabel = AttributeLabel()
-# attrLabel.train()
+attrLabel = AttributeLabel()
+attrLabel.train()
 
-# from Prediction import Model
+from Prediction import Model
 
-# model = Model(attrLabel.classifiers, "attr")
-# model.save()
+model = Model(attrLabel.classifiers, "attr")
+model.save()
