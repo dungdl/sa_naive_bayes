@@ -1,11 +1,8 @@
 # MARK:- Libs
 import numpy as np
 import json
-import time
-import re
-import pprint
 from NaiveBayes import NaiveBayes
-
+from Support import Support
 
 # MARK:- labeling functions
 class PolarLabel:
@@ -14,13 +11,22 @@ class PolarLabel:
         # MARK:- Main scripts
 
         (self.comments, tags) = self.__readfile('train.json')  # get data from input file
+        self.label = []
+        (e0_generals, e0_prices, e0_miscels) = self.__e0_labeling(tags)
+        (e1_prices, e1_quaity, e1_sno) = self.__e1_labeling(tags)
+        (e2_prices, e2_quaity, e2_sno) = self.__e2_labeling(tags)
+        e3general_labels = self.__e3_labeling(tags)
+        e4general_labels = self.__e4_labeling(tags)
+        e5general_labels = self.__e5_labeling(tags)
 
-        (self.e0_generals, self.e0_prices, self.e0_miscels) = self.__e0_labeling(tags)
-        (self.e1_prices, self.e1_quaity, self.e1_sno) = self.__e1_labeling(tags)
-        (self.e2_prices, self.e2_quaity, self.e2_sno) = self.__e2_labeling(tags)
-        self.e3general_labels = self.__e3_labeling(tags)
-        self.e4general_labels = self.__e4_labeling(tags)
-        self.e5general_labels = self.__e5_labeling(tags)
+        self.label = [
+            e0_generals, e0_prices, e0_miscels,
+            e1_prices, e1_quaity, e1_sno,
+            e2_prices, e2_quaity, e2_sno,
+            e3general_labels,
+            e4general_labels,
+            e5general_labels
+        ]
 
     def __labeling_entity(self, tag, index):
         switcher = [
@@ -257,3 +263,32 @@ class PolarLabel:
                 tags.append(rev['tags'])
 
         return (comments, tags)
+
+    def train(self):
+        self.classifiers = []
+
+        print("[Training Polarity Classifier with VLSP 2018]")
+        print("---------------- Training In Progress --------------------")
+
+        for i in range(0, 1):
+            print("Training: " + Support.indexToName(i))
+
+            nb = NaiveBayes(np.unique(self.label[i]))
+
+            print('-------- Start Cross Validation ------------')
+            nb.cross_validation(self.comments, self.label[i])
+            print('-------- End Cross Validation ------------')
+            print(len(self.comments))
+            print(len(self.label[i]))
+
+            self.classifiers.append(nb)
+
+        print('----------------- Training Completed ---------------------')
+
+polarLabel = PolarLabel()
+polarLabel.train()
+
+from Prediction import Model
+
+model = Model(polarLabel.classifiers, "polar")
+model.save()
