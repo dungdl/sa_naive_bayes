@@ -63,3 +63,18 @@ class Support:
         cleaned_str = cleaned_str.lower()
         cleaned_str = ViTokenizer.tokenize(cleaned_str)
         return cleaned_str
+
+    @staticmethod
+    def indexToEntity(index):
+        """
+        return name match input index
+        """
+        switcher = {
+            0: "Restaurant",
+            1: "Food",
+            2: "Drink",
+            3: "Ambience",
+            4: "Service",
+            5: "Location",
+        }
+        return switcher.get(index, 5)
