@@ -2,7 +2,7 @@
 import numpy as np
 import json
 from NaiveBayes import NaiveBayes
-from Prediction import Model
+from Model import Model
 
 # MARK:- training class
 
@@ -69,9 +69,3 @@ class EntityLabel:
         self.nb.cross_validation(self.ori_data, self.ori_labels)
         self.classifiers.append(self.nb)
         print('----------------- Training Completed ---------------------')
-
-
-entLabel = EntityLabel()
-entLabel.train()
-model = Model(entLabel.classifiers, "entity")
-model.save()

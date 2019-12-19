@@ -1,5 +1,5 @@
 # MARK:- Libs
-from Prediction import Model
+from Model import Model
 import numpy as np
 import json
 from NaiveBayes import NaiveBayes
@@ -283,11 +283,3 @@ class PolarLabel:
             self.classifiers.append(nb)
 
         print('----------------- Training Completed ---------------------')
-
-
-polarLabel = PolarLabel()
-polarLabel.train()
-
-
-model = Model(polarLabel.classifiers, "polar")
-model.save()

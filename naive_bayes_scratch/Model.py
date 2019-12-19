@@ -24,7 +24,7 @@ class Model:
         """
         save current model to file in JSON format
         """
-
+        os.mkdir(self.name)
         i = 0
         for ent in self.classifier:
             # extract parameters
@@ -46,7 +46,7 @@ class Model:
             json_part["cates_info"] = cates_info
             parsed_json = json.dumps(
                 json_part, indent=4, sort_keys=True, ensure_ascii=False)
-            os.mkdir(self.name)
+            
             # write to file
             file = io.open(self.name + "/model_" + self.name +
                            "_" + str(i) + ".json", "w", encoding='utf-8')

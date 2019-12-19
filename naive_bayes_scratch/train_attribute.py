@@ -1,5 +1,5 @@
 # MARK:- Libs
-from Prediction import Model
+from Model import Model
 import numpy as np
 import json
 from NaiveBayes import NaiveBayes
@@ -259,11 +259,3 @@ class AttributeLabel:
             self.classifiers.append(nb)
 
         print('----------------- Training Completed ---------------------')
-
-
-attrLabel = AttributeLabel()
-attrLabel.train()
-
-
-model = Model(attrLabel.classifiers, "attr")
-model.save()
