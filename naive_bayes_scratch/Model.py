@@ -31,17 +31,23 @@ class Model:
             json_part = {}
             cates_info = {}
             json_part["classes"] = ent.classes.tolist()
-            oriDic = sorted(ent.cates_info[0][0].items(
-            ), key=lambda item: item[1], reverse=True)
-            myDic = {}
-            for k, v in oriDic:
-                if re.match(r'[-@_!#$%^&*()<>?/\|}{~:,.+=\[\]\\\'-;"`]', k):
-                    pass
-                else:
-                    myDic[k] = v
-            cates_info[0] = myDic
-            cates_info[1] = ent.cates_info[0][1]
-            cates_info[2] = ent.cates_info[0][2]
+            cates_info = {}
+            for cate_index, cate in enumerate(ent.classes):
+                cate_part = {}
+                # get total count of test token, +1 as applying Laplace smoothing
+                oriDic = sorted(ent.cates_info[cate_index][0].items(
+                ), key=lambda item: item[1], reverse=True)
+                myDic = {}
+                for k, v in oriDic:
+                    if re.match(r'[-@_!#$%^&*()<>?/\|}{~:,.+=\[\]\\\'-;"`]', k):
+                        pass
+                    else:
+                        myDic[k] = v
+                cate_part[0] = myDic
+                cate_part[1] = ent.cates_info[cate_index][1]
+                cate_part[2] = ent.cates_info[cate_index][2]
+                cates_info[cate_index] = cate_part
+
             # save to json model
             json_part["cates_info"] = cates_info
             parsed_json = json.dumps(

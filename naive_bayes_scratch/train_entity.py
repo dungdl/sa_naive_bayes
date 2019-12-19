@@ -14,8 +14,7 @@ class EntityLabel:
             'train.json')  # get data from file
         self.classifiers = []
         # save original labels as a list
-        for i in range(0, 6):
-            self.ori_labels = self.label_sets[i]
+        
 
     # MARK:- labeling
 
@@ -60,12 +59,15 @@ class EntityLabel:
         """
         training the Entity Classifier
         """
-        print("[Training Entity Classifier with VLSP 2018]")
-        # instantiate a NB class object
-        self.nb = NaiveBayes(np.unique(self.ori_labels))
-        print("---------------- Training In Progress --------------------")
+        for i in range(0, 6):
+            ori_labels = self.label_sets[i]
+            
+            print("[Training Entity Classifier with VLSP 2018]")
+            # instantiate a NB class object
+            self.nb = NaiveBayes(np.unique(ori_labels))
+            print("---------------- Training In Progress --------------------")
 
-        # start training by calling the train function
-        self.nb.cross_validation(self.ori_data, self.ori_labels)
-        self.classifiers.append(self.nb)
-        print('----------------- Training Completed ---------------------')
+            # start training by calling the train function
+            self.nb.cross_validation(self.ori_data, ori_labels)
+            self.classifiers.append(self.nb)
+            print('----------------- Training Completed ---------------------')
