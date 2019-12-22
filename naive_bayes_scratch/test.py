@@ -47,15 +47,15 @@ def get_model(model):
         nb.cates_info = cates_info
         return nb
 # Test Entity
-# for i in range (0,6):
-#     print("Testing Entity : " + Support.indexToEntity(i))
-#     model = get_model("ent/model_ent_" + str(i) + ".json")
-#     test(model, "ent", i)
-# # Test Attribute
-# for i in range (0,12):
-#     print("Testing Attribute : " + Support.indexToName(i))
-#     model = get_model("attr/model_attr_" + str(i) + ".json")
-#     test(model, "attr", i)
+for i in range (0,6):
+    print("Testing Entity : " + Support.indexToEntity(i))
+    model = get_model("ent/model_ent_" + str(i) + ".json")
+    test(model, "ent", i)
+# Test Attribute
+for i in range (0,12):
+    print("Testing Attribute : " + Support.indexToName(i))
+    model = get_model("attr/model_attr_" + str(i) + ".json")
+    test(model, "attr", i)
 # Test Polar
 for i in range (0,12):
     print("Testing Polar : " + Support.indexToName(i))

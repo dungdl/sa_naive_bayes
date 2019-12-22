@@ -89,6 +89,3 @@ class DataPreprocess:
                                  sort_keys=True, ensure_ascii=False)
         # and output to file
         self.writeData(file_output, parsed_json)
-
-p = DataPreprocess()
-p.labeling("test.txt", "test.json")
