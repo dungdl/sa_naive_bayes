@@ -78,3 +78,16 @@ class Support:
             5: "Location",
         }
         return switcher.get(index, 5)
+
+    @staticmethod
+    def indexToPolar(index):
+        """
+        return polar as text
+        """
+        switcher = {
+                0: "Not mentioned",
+                1: "Positive",
+                2: "Neutral",
+                3: "Negative",
+            }
+        return switcher.get(index, 4)

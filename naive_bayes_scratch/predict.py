@@ -32,30 +32,23 @@ def get_attr(entity):
         }
     return switcher.get(entity, 6)
 
-def get_polar_as_text(index):
-    """
-    return polar as text
-    """
-    switcher = {
-            0: "Not mentioned",
-            1: "Positive",
-            2: "Neutral",
-            3: "Negative",
-        }
-    return switcher.get(index, 4)
+
 
 import sys
 
-def main(review):
-    review = str(review[1])
+def run(review):
+    review = str(review)
+    result = ""
     for i in range(0, 6):
         if predict_model("ent/model_ent_" + str(i) + ".json", review) == 1:
             attrs = get_attr(i)
             for attr_index, attr in enumerate(attrs):
                 if predict_model("attr/model_attr_" + str(attr) + ".json", review) == 1:
                     polar = predict_model("pol/model_pol_" + str(attr) + ".json", review)
-                    print(str(Support.indexToName(attr)) + " : " + get_polar_as_text(polar))
-
+                    if (polar != 0):
+                        result += str(Support.indexToName(attr)) + " : " + Support.indexToPolar(polar) + "\n"
+    print(result)
+    return result
 if __name__ == '__main__':
-    main(sys.argv)
+    run(sys.argv)
 

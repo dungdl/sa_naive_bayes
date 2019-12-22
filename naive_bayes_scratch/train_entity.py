@@ -9,9 +9,9 @@ from Model import Model
 
 class EntityLabel:
 
-    def __init__(self):
-        (self.ori_data, self.label_sets) = self.__readfile(
-            'train.json')  # get data from file
+    def __init__(self, fileName):
+        (self.ori_data, self.label_sets) = self.readfile(
+            fileName)  # get data from file
         self.classifiers = []
         # save original labels as a list
         
@@ -33,7 +33,7 @@ class EntityLabel:
         return 1 if switcher[index] in tag.keys() else 0
 
     # MARK:- support functions
-    def __readfile(self, filename):
+    def readfile(self, filename):
         """
         return comments and relative tags as correspond lists
         """

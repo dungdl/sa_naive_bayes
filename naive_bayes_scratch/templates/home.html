@@ -1,0 +1,28 @@
+<html>
+   <head>
+      <title>Document Reader</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">   
+
+   </head>
+   <body>
+      <img id="logo" src="{{ url_for('static', filename='logo/logo.png') }}" alt="">
+      <h2>DEMO NAIVE BAYES</h2>
+      <div id="lang_holder">
+         <form method = "POST" enctype="multipart/form-data">
+            <div id="input_holder">
+               <textarea style="resize: none;" name="input" id="input">{{ input }}</textarea>
+            </div>
+            <input class="btn btn-primary" id="btnUpload" type = "submit" value="Predict"/>
+         </form>
+
+         <form action="http://127.0.0.1:5000/">
+            <input id="btnTryAgain" class="btn btn-warning" type="submit" value="Try Again" />
+        </form>
+         
+      </div>
+      <div id="result_holder">
+         <textarea style="resize: none;" readonly id="result">{{ print_result }}</textarea>
+      </div>
+   </body>
+</html>

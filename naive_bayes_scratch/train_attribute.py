@@ -10,9 +10,9 @@ from Support import Support
 
 class AttributeLabel:
 
-    def __init__(self):
-        (self.comments, tags) = self.__readfile(
-            'train.json')  # get data from input file
+    def __init__(self, fileName):
+        (self.comments, tags) = self.readfile(
+            fileName)  # get data from input file
         self.label = []
         # Entity Labeling
         (e0_generals, e0_prices, e0_miscels) = self.__e0_labeling(tags)
@@ -220,7 +220,7 @@ class AttributeLabel:
 
     # MARK:- support functions
 
-    def __readfile(self, filename):
+    def readfile(self, filename):
         """
         return comments and relative tags as correspond lists
         """

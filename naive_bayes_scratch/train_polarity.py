@@ -10,9 +10,9 @@ from Support import Support
 
 class PolarLabel:
 
-    def __init__(self):
-        (self.comments, tags) = self.__readfile(
-            'train.json')  # get data from input file
+    def __init__(self, fileName):
+        (self.comments, tags) = self.readfile(
+            fileName)  # get data from input file
         self.label = []
         # get labels
         (e0_generals, e0_prices, e0_miscels) = self.__e0_labeling(tags)
@@ -245,7 +245,7 @@ class PolarLabel:
 
     # MARK:- support functions
 
-    def __readfile(self, filename):
+    def readfile(self, filename):
         """
         return comments and relative tags as correspond lists
         """

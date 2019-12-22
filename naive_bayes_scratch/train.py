@@ -5,19 +5,19 @@ from Model import Model
 
 
 
-entLabel = EntityLabel()
+entLabel = EntityLabel("train.json")
 entLabel.train()
 
 model2 = Model(entLabel.classifiers, "ent")
 model2.save()
 
-attrLabel = AttributeLabel()
+attrLabel = AttributeLabel("train.json")
 attrLabel.train()
 
 model1 = Model(attrLabel.classifiers, "attr")
 model1.save()
 
-polLabel = PolarLabel()
+polLabel = PolarLabel("train.json")
 polLabel.train()
 
 model3 = Model(polLabel.classifiers, "pol")
